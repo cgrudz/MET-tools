@@ -43,31 +43,40 @@ from datetime import datetime as dt
 from datetime import timedelta
 import multiprocessing 
 from multiprocessing import Pool
+import ipdb
 
 ##################################################################################
 # SET GLOBAL PARAMETERS 
 ##################################################################################
 # define control flow to analyze 
 CTR_FLWS = [
-            'NRT_gfs',
-            'NRT_ecmwf',
+            "NAM_lag06_b0.00_v06_h0300",
+            "NAM_lag06_b0.20_v06_h0300",
+            "NAM_lag06_b0.40_v06_h0300",
+            "NAM_lag06_b0.60_v06_h0300",
+            "NAM_lag06_b0.80_v06_h0300",
+            "NAM_lag06_b1.00_v06_h0300",
+            "RAP_lag06_b0.00_v06_h0300",
+            "RAP_lag06_b0.20_v06_h0300",
+            "RAP_lag06_b0.40_v06_h0300",
+            "RAP_lag06_b0.60_v06_h0300",
+            "RAP_lag06_b0.80_v06_h0300",
+            "RAP_lag06_b1.00_v06_h0300",
            ]
 
 # define the case-wise sub-directory
-CSE = 'DeepDive'
+CSE = 'CC-NAM_v_RAP'
 
 # verification domain for the forecast data                                                                           
 GRDS = [
-        'd01',
         'd02',
-        'd03',
        ]
 
 # starting date and zero hour of forecast cycles (string YYYYMMDDHH)
-STRT_DT = '2022121400'
+STRT_DT = '2021012400'
 
 # final date and zero hour of data of forecast cycles (string YYYYMMDDHH)
-END_DT = '2023011800'
+END_DT = '2021012800'
 
 # number of hours between zero hours for forecast data (string HH)
 CYC_INT = '24'
@@ -78,10 +87,10 @@ PRFXS = [
         ]
 
 # root directory for gridstat outputs
-IN_ROOT = '/cw3e/mead/projects/cwp106/scratch/' + CSE
+IN_ROOT = '/cw3e/mead/projects/cwp106/scratch/cgrudzien/' + CSE
 
 # root directory for processed pandas outputs
-OUT_ROOT = '/cw3e/mead/projects/cwp106/scratch/' + CSE
+OUT_ROOT = '/cw3e/mead/projects/cwp106/scratch/cgrudzien/' + CSE
 
 ##################################################################################
 # Construct hyper-paramter array for batch processing gridstat data
@@ -113,7 +122,7 @@ for CTR_FLW in CTR_FLWS:
             CNFG.append('/' + CTR_FLW)
             
             # path to gridstat outputs from cycle directory
-            CNFG.append('/' + GRD)
+            CNFG.append('')
 
             # path to pandas output directories from OUT_ROOT
             CNFG.append('/' + CTR_FLW)

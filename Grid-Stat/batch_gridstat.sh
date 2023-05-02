@@ -5,7 +5,7 @@
 #SBATCH -t 02:00:00
 #SBATCH -J batch_gridstat
 #SBATCH --export=ALL
-#SBATCH --array=0-5
+#SBATCH --array=0-11
 ##################################################################################
 # Description
 ##################################################################################
@@ -35,10 +35,10 @@
 #set -x
 
 # root directory for MET-tools git clone
-export USR_HME=/cw3e/mead/projects/cwp106/scratch/MET-tools
+export USR_HME=/cw3e/mead/projects/cwp106/scratch/cgrudzien/MET-tools
 
 # root directory for verification data
-export DATA_ROOT=/cw3e/mead/projects/cnt102/METMODE_PreProcessing/data/StageIV
+export DATA_ROOT=/cw3e/mead/projects/cwp106/scratch/cgrudzien/DATA/CC/verification/StageIV
 
 # root directory for MET software
 export SOFT_ROOT=/cw3e/mead/projects/cwp106/scratch/cgrudzien/SOFT_ROOT/MET_CODE
@@ -52,8 +52,18 @@ export CAT_THR="[ >0.0, >=10.0, >=25.4, >=50.8, >=101.6 ]"
 
 # array of control flow names to be processed
 CTR_FLWS=( 
-          "NRT_gfs"
-          "NRT_ecmwf"
+          "NAM_lag06_b0.00_v06_h0300"
+          "NAM_lag06_b0.20_v06_h0300"
+          "NAM_lag06_b0.40_v06_h0300"
+          "NAM_lag06_b0.60_v06_h0300"
+          "NAM_lag06_b0.80_v06_h0300"
+          "NAM_lag06_b1.00_v06_h0300"
+          "RAP_lag06_b0.00_v06_h0300"
+          "RAP_lag06_b0.20_v06_h0300"
+          "RAP_lag06_b0.40_v06_h0300"
+          "RAP_lag06_b0.60_v06_h0300"
+          "RAP_lag06_b0.80_v06_h0300"
+          "RAP_lag06_b1.00_v06_h0300"
          )
 
 # NOTE: the grids in the GRDS array and the interpolation methods /
@@ -61,36 +71,30 @@ CTR_FLWS=(
 # in 1-1 correspondence to define the interpolation method / width
 # specific to each grid
 GRDS=( 
-      "d01"
       "d02"
-      "d03"
      )
 
 # define the interpolation method and related parameters
 INT_MTHDS=( 
            "DW_MEAN"
-           "DW_MEAN"
-           "DW_MEAN"
           )
 INT_WDTHS=( 
-           "3"
            "9"
-           "27"
           )
 
 # define the case-wise sub-directory
-export CSE=DeepDive
+export CSE=CC-NAM_v_RAP 
 
 # define first and last date time for forecast initialization (YYYYMMDDHH)
-export STRT_DT=2022121400
-export END_DT=2023011800
+export STRT_DT=2021012700
+export END_DT=2021012800
 
 # define the interval between forecast initializations (HH)
 export CYC_INT=24
 
 # define min / max forecast hours for forecast outputs to be processed
 export ANL_MIN=24
-export ANL_MAX=240
+export ANL_MAX=120
 
 # define the interval at which to process forecast outputs (HH)
 export ANL_INT=24
@@ -102,16 +106,16 @@ export ACC_INT=24
 export VRF_FLD=QPF
 
 # Landmask for verification region file name with extension
-export MSK=CALatLonPoints.txt
+export MSK=All_CA.txt
 
 # neighborhood width for neighborhood methods
 export NBRHD_WDTH=9
 
 # number of bootstrap resamplings, set 0 for off
-export BTSTRP=0
+export BTSTRP=1000
 
 # rank correlation computation flag, TRUE or FALSE
-export RNK_CRR=FALSE
+export RNK_CRR=TRUE
 
 # compute accumulation from cf file, TRUE or FALSE
 export CMP_ACC=TRUE
@@ -120,10 +124,10 @@ export CMP_ACC=TRUE
 export PRFX=""
 
 # root directory for cycle time (YYYYMMDDHH) directories of cf-compliant files
-export IN_ROOT=/cw3e/mead/projects/cwp106/scratch/${CSE}
+export IN_ROOT=/cw3e/mead/projects/cwp106/scratch/cgrudzien/${CSE}
 
 # root directory for cycle time (YYYYMMDDHH) directories of gridstat outputs
-export OUT_ROOT=/cw3e/mead/projects/cwp106/scratch/${CSE}
+export OUT_ROOT=/cw3e/mead/projects/cwp106/scratch/cgrudzien/${CSE}
 
 ##################################################################################
 # Contruct job array and environment for submission
@@ -165,11 +169,11 @@ for (( i = 0; i < ${num_grds}; i++ )); do
 
     # subdirectory of cycle-named directory containing data to be analyzed,
     # includes leading '/', left as blank string if not needed
-    cmd="${cfg_indx}+=(\"IN_DT_SUBDIR=/${GRD}\")"
+    cmd="${cfg_indx}+=(\"IN_DT_SUBDIR=\"\"\")"
     echo ${cmd}; eval ${cmd}
     
     # subdirectory of cycle-named directory where output is to be saved
-    cmd="${cfg_indx}+=(\"OUT_DT_SUBDIR=/${GRD}\")"
+    cmd="${cfg_indx}+=(\"OUT_DT_SUBDIR=\"\"\")"
     echo ${cmd}; eval ${cmd}
 
     cmd="cfgs+=( \"${cfg_indx}\" )"

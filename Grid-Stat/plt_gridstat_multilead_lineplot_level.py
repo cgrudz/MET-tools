@@ -81,9 +81,7 @@ FIG_CSE = ''
 
 # verification domain for the forecast data
 GRDS = [
-        'd01',
         'd02',
-        'd03',
         '0.25',
        ]
 
@@ -94,13 +92,13 @@ REF='0.25'
 LEV = '>=25.4'
 
 # starting date and zero hour of forecast cycles
-STRT_DT = '2022121400'
+STRT_DT = '2021012400'
 
 # final date and zero hour of data of forecast cycles
-END_DT = '2023011800'
+END_DT = '2021012800'
 
 # valid date for the verification
-VALID_DT = '2023010100'
+VALID_DT = '2021012900'
 
 # MET stat file type - should be leveled data
 TYPE = 'nbrcnt'

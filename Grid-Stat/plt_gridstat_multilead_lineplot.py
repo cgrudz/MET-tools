@@ -51,8 +51,18 @@ from proc_gridstat import OUT_ROOT
 ##################################################################################
 # define control flows to analyze 
 CTR_FLWS = [
-            'NRT_gfs',
-            'NRT_ecmwf',
+            "NAM_lag06_b0.00_v06_h0300",
+            "NAM_lag06_b0.20_v06_h0300",
+            "NAM_lag06_b0.40_v06_h0300",
+            "NAM_lag06_b0.60_v06_h0300",
+            "NAM_lag06_b0.80_v06_h0300",
+            "NAM_lag06_b1.00_v06_h0300",
+            "RAP_lag06_b0.00_v06_h0300",
+            "RAP_lag06_b0.20_v06_h0300",
+            "RAP_lag06_b0.40_v06_h0300",
+            "RAP_lag06_b0.60_v06_h0300",
+            "RAP_lag06_b0.80_v06_h0300",
+            "RAP_lag06_b1.00_v06_h0300",
             'GFS',
             'ECMWF',
            ]
@@ -62,7 +72,7 @@ CTR_FLWS = [
 # number of underscore separated compenents in the string to obtain the full
 # name as the legend label. Note: a non-empty prefix value below will always be
 # included in the legend label
-LAB_LEN = 2
+LAB_LEN = 3
 
 # define if legend label includes grid
 GRD_LAB = True
@@ -80,20 +90,18 @@ FIG_CSE = ''
 
 # verification domains for the forecast data
 GRDS = [
-        'd01',
         'd02',
-        'd03',
         '0.25',
        ]
 
 # starting date and zero hour of forecast cycles
-STRT_DT = '2022121400'
+STRT_DT = '2021012400'
 
 # final date and zero hour of data of forecast cycles
-END_DT = '2023011800'
+END_DT = '2021012800'
 
 # valid date for the verification
-VALID_DT = '2023010100'
+VALID_DT = '2021012900'
 
 # MET stat file type - should be non-leveled data
 TYPE = 'cnt'
