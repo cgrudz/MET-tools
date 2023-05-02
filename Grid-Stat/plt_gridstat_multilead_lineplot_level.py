@@ -52,21 +52,28 @@ from proc_gridstat import OUT_ROOT
 ##################################################################################
 # define control flows to analyze 
 CTR_FLWS = [
-            'NRT_gfs',
-            'NRT_ecmwf',
-            'GFS',
-            'ECMWF',
+            "NAM_lag06_b0.00_v06_h0300",
+            "NAM_lag06_b0.20_v06_h0300",
+            "NAM_lag06_b0.40_v06_h0300",
+            "RAP_lag06_b0.00_v06_h0300",
+            "RAP_lag06_b0.20_v06_h0300",
+            "RAP_lag06_b0.40_v06_h0300",
+            #"NAM_lag06_b0.60_v06_h0300",
+            #"NAM_lag06_b0.80_v06_h0300",
+            #"NAM_lag06_b1.00_v06_h0300",
+            #"RAP_lag06_b0.60_v06_h0300",
+            #"RAP_lag06_b0.80_v06_h0300",
+            #"RAP_lag06_b1.00_v06_h0300",
            ]
 
-# Define the max number of underscore components of control flow names to include in
-# fig legend. This includes components of the strings above from last to first. Set to
-# number of underscore separated compenents in the string to obtain the full
-# name as the legend label. Note: a non-empty prefix value below will always be
+# Define a list of indices for underscore components of control flow names to include in
+# fig legend. This includes components of the strings above from last to first,
+# starting with zero. Note: a non-empty prefix value below will always be
 # included in the legend label
-LAB_LEN = 2
+LAB_IDX = [0, 2, 3] 
 
 # define if legend label includes grid
-GRD_LAB = True
+GRD_LAB = False
 
 # define optional list of stats files prefixes
 PRFXS = [
@@ -82,7 +89,6 @@ FIG_CSE = ''
 # verification domain for the forecast data
 GRDS = [
         'd02',
-        '0.25',
        ]
 
 # verification domain for the calibration data
@@ -107,7 +113,7 @@ TYPE = 'nbrcnt'
 STATS = ['FSS', 'AFSS']
 
 # landmask for verification region
-LND_MSK = 'CALatLonPoints'
+LND_MSK = 'All_CA'
 
 # plot title
 TITLE='24hr accumulated precip at ' + VALID_DT[:4] + '-' + VALID_DT[4:6] + '-' +\
@@ -232,13 +238,20 @@ for ctr_flw in CTR_FLWS:
 
             split_string = ctr_flw.split('_')
             split_len = len(split_string)
+            idx_len = len(LAB_IDX)
             line_lab = pfx 
-            lab_len = min(LAB_LEN, split_len)
+            lab_len = min(idx_len, split_len)
             if lab_len > 1:
                 for i_ll in range(lab_len, 1, -1):
-                    line_lab += split_string[-i_ll] + '_'
+                    i_li = LAB_IDX[-i_ll]
+                    line_lab += split_string[i_li] + '_'
 
-            line_lab += split_string[-1] 
+                i_li = LAB_IDX[-1]
+                line_lab += split_string[i_li] 
+
+            else:
+                line_lab += split_string[0]
+
             if GRD_LAB:
                 line_lab += '_' + grd
 
